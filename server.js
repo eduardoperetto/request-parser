@@ -1,6 +1,14 @@
 // server.js
 // where your node app starts
 
+/* 
+A request to /api/whoami should return a JSON object with your IP address in the ipaddress key.
+
+A request to /api/whoami should return a JSON object with your preferred language in the language key.
+
+A request to /api/whoami should return a JSON object with your software in the software key. 
+*/
+
 // init project
 require('dotenv').config();
 var express = require('express');
@@ -21,8 +29,14 @@ app.get("/", function (req, res) {
 
 
 // your first API endpoint... 
-app.get("/api/hello", function (req, res) {
-  res.json({greeting: 'hello API'});
+app.get("/api/whoami", function (req, res) {
+  res.json(
+    {
+      ipaddress: req.headers['x-forwarded-for'],
+      language: req.headers['accept-language'],
+      software: req.headers['user-agent'],
+    }
+  );
 });
 
 
